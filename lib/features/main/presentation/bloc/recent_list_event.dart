@@ -1,4 +1,4 @@
-import 'package:omni_previewer/core/class/working_file.dart';
+import 'package:omni_preview/core/class/working_file.dart';
 
 class RecentListEvent {
   RecentListEvent();

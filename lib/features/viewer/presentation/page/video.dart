@@ -1,13 +1,13 @@
 import 'dart:async';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart';
-import 'package:omni_previewer/core/class/working_file.dart';
-import 'package:omni_previewer/core/utililty/utility.dart';
-import 'package:omni_previewer/features/viewer/presentation/widget/omni_footer.dart';
-import 'package:omni_previewer/features/viewer/presentation/widget/viewer-appbar.dart';
+import 'package:omni_preview/core/class/working_file.dart';
+import 'package:omni_preview/core/utililty/utility.dart';
+import 'package:omni_preview/features/common/widget/background_builder.dart';
+import 'package:omni_preview/features/viewer/presentation/widget/omni_footer.dart';
+import 'package:omni_preview/features/viewer/presentation/widget/viewer-appbar.dart';
 
 class VideoViewer extends StatefulWidget {
   final WorkingFile workingFile;
@@ -20,32 +20,16 @@ class VideoViewer extends StatefulWidget {
 class _VideoViewerState extends State<VideoViewer> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/default.jpg'),
-            fit: BoxFit.cover,
+    return BackgroundBuilder(
+      child: Column(
+        children: [
+          AppBarViewer(
+            title: getFileName(widget.workingFile.path),
+            desc: getFilePathWithoutFileName(widget.workingFile.path),
           ),
-        ),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-          child: Container(
-            color: const Color(0x00242424).withValues(alpha: 0.5),
-            child: SafeArea(
-              child: Column(
-                children: [
-                  AppBarViewer(
-                    title: getFileName(widget.workingFile.path),
-                    desc: getFilePathWithoutFileName(widget.workingFile.path),
-                  ),
-                  VideoPlayerView(filePath: widget.workingFile.workingPath),
-                  OmniFooter(),
-                ],
-              ),
-            ),
-          ),
-        ),
+          VideoPlayerView(filePath: widget.workingFile.workingPath),
+          OmniFooter(),
+        ],
       ),
     );
   }

@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:omni_previewer/features/main/domain/usecase/recent_list.dart';
-import 'package:omni_previewer/features/main/presentation/bloc/recent_list_event.dart';
-import 'package:omni_previewer/features/main/presentation/bloc/recent_list_state.dart';
+import 'package:omni_preview/features/main/domain/usecase/recent_list.dart';
+import 'package:omni_preview/features/main/presentation/bloc/recent_list_event.dart';
+import 'package:omni_preview/features/main/presentation/bloc/recent_list_state.dart';
 
 class RecentListBloc extends Bloc<RecentListEvent, RecentListState> {
   final GetRecentList getRecentFiles;

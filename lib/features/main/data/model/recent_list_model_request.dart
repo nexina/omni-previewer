@@ -1,4 +1,4 @@
-import 'package:omni_previewer/features/main/domain/entities/recent_list_entity.dart';
+import 'package:omni_preview/features/main/domain/entities/recent_list_entity.dart';
 
 class RecentListModel extends RecentListEntity {
   RecentListModel({required super.recentFiles});

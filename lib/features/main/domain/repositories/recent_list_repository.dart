@@ -1,5 +1,5 @@
-import 'package:omni_previewer/core/class/working_file.dart';
-import 'package:omni_previewer/features/main/presentation/bloc/recent_list_state.dart';
+import 'package:omni_preview/core/class/working_file.dart';
+import 'package:omni_preview/features/main/presentation/bloc/recent_list_state.dart';
 
 abstract class RecentListRepository {
   Future<List<RecentFileItem>> getRecentFilesWithMeta();

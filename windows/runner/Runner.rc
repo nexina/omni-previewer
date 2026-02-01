@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "omni_viewer" "\0"
+            VALUE "CompanyName", "nexina.omni" "\0"
+            VALUE "FileDescription", "omni_preview" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "omni_viewer" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2026 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "omni_viewer.exe" "\0"
-            VALUE "ProductName", "omni_viewer" "\0"
+            VALUE "InternalName", "omni_preview" "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2026 nexina.omni. All rights reserved." "\0"
+            VALUE "OriginalFilename", "omni_preview.exe" "\0"
+            VALUE "ProductName", "omni_preview" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

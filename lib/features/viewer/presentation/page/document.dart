@@ -1,15 +1,15 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
-import 'dart:ui';
 
 import 'package:docx_file_viewer/docx_file_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:microsoft_viewer/microsoft_viewer.dart';
-import 'package:omni_previewer/core/class/working_file.dart';
-import 'package:omni_previewer/core/utililty/utility.dart';
-import 'package:omni_previewer/features/viewer/presentation/widget/omni_footer.dart';
-import 'package:omni_previewer/features/viewer/presentation/widget/viewer-appbar.dart';
+import 'package:omni_preview/core/class/working_file.dart';
+import 'package:omni_preview/core/utililty/utility.dart';
+import 'package:omni_preview/features/common/widget/background_builder.dart';
+import 'package:omni_preview/features/viewer/presentation/widget/omni_footer.dart';
+import 'package:omni_preview/features/viewer/presentation/widget/viewer-appbar.dart';
 import 'package:pdfrx/pdfrx.dart';
 
 class DocumentViewer extends StatelessWidget {
@@ -18,32 +18,16 @@ class DocumentViewer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/default.jpg'),
-            fit: BoxFit.cover,
+    return BackgroundBuilder(
+      child: Column(
+        children: [
+          AppBarViewer(
+            title: getFileName(workingFile.path),
+            desc: getFilePathWithoutFileName(workingFile.path),
           ),
-        ),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-          child: Container(
-            color: const Color(0x00242424).withValues(alpha: 0.5),
-            child: SafeArea(
-              child: Column(
-                children: [
-                  AppBarViewer(
-                    title: getFileName(workingFile.path),
-                    desc: getFilePathWithoutFileName(workingFile.path),
-                  ),
-                  DocumentView(filePath: workingFile.workingPath),
-                  OmniFooter(),
-                ],
-              ),
-            ),
-          ),
-        ),
+          DocumentView(filePath: workingFile.workingPath),
+          OmniFooter(),
+        ],
       ),
     );
   }

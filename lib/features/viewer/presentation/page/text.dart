@@ -1,11 +1,11 @@
-import 'dart:ui';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:omni_previewer/core/class/working_file.dart';
-import 'package:omni_previewer/core/utililty/utility.dart';
-import 'package:omni_previewer/features/viewer/presentation/widget/omni_footer.dart';
-import 'package:omni_previewer/features/viewer/presentation/widget/viewer-appbar.dart';
+import 'package:omni_preview/core/class/working_file.dart';
+import 'package:omni_preview/core/utililty/utility.dart';
+import 'package:omni_preview/features/common/widget/background_builder.dart';
+import 'package:omni_preview/features/viewer/presentation/widget/omni_footer.dart';
+import 'package:omni_preview/features/viewer/presentation/widget/viewer-appbar.dart';
 
 class TextViewer extends StatefulWidget {
   final WorkingFile workingFile;
@@ -32,77 +32,60 @@ class _TextViewerState extends State<TextViewer> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/default.jpg'),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-          child: Container(
-            color: const Color(0x00242424).withValues(alpha: 0.5),
-            child: SafeArea(
-              child: Column(
-                children: [
-                  AppBarViewer(
-                    title: getFileName(widget.workingFile.path),
-                    desc: getFilePathWithoutFileName(widget.workingFile.path),
-                    actionButton: IconButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return StatefulBuilder(
-                              builder: (context, setDialogState) {
-                                return AlertDialog(
-                                  title: const Text('Adjust Font Size'),
-                                  content: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      IconButton(
-                                        icon: const Icon(Icons.remove),
-                                        onPressed: () {
-                                          setDialogState(() {
-                                            decreaseFontSize();
-                                          });
-                                        },
-                                      ),
-                                      Text(fontSize.toInt().toString()),
-                                      IconButton(
-                                        icon: const Icon(Icons.add),
-                                        onPressed: () {
-                                          setDialogState(() {
-                                            increaseFontSize();
-                                          });
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
-                            );
-                          },
+    return BackgroundBuilder(
+      child: Column(
+        children: [
+          AppBarViewer(
+            title: getFileName(widget.workingFile.path),
+            desc: getFilePathWithoutFileName(widget.workingFile.path),
+            actionButton: IconButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return StatefulBuilder(
+                      builder: (context, setDialogState) {
+                        return AlertDialog(
+                          title: const Text('Adjust Font Size'),
+                          content: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              IconButton(
+                                icon: const Icon(Icons.remove),
+                                onPressed: () {
+                                  setDialogState(() {
+                                    decreaseFontSize();
+                                  });
+                                },
+                              ),
+                              Text(fontSize.toInt().toString()),
+                              IconButton(
+                                icon: const Icon(Icons.add),
+                                onPressed: () {
+                                  setDialogState(() {
+                                    increaseFontSize();
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
                         );
                       },
-                      icon: const Icon(Icons.more_vert, color: Colors.white),
-                    ),
-                  ),
-                  Expanded(
-                    child: _TextView(
-                      filePath: widget.workingFile.workingPath,
-                      fontSize: fontSize,
-                    ),
-                  ),
-                  OmniFooter(),
-                ],
-              ),
+                    );
+                  },
+                );
+              },
+              icon: const Icon(Icons.more_vert, color: Colors.white),
             ),
           ),
-        ),
+          Expanded(
+            child: _TextView(
+              filePath: widget.workingFile.workingPath,
+              fontSize: fontSize,
+            ),
+          ),
+          OmniFooter(),
+        ],
       ),
     );
   }

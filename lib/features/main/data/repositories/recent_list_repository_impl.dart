@@ -1,10 +1,10 @@
 import 'dart:io';
 
-import 'package:omni_previewer/core/class/working_file.dart';
-import 'package:omni_previewer/core/utililty/utility.dart';
-import 'package:omni_previewer/features/main/data/datasource/local/recent_list_local_datasource.dart';
-import 'package:omni_previewer/features/main/domain/repositories/recent_list_repository.dart';
-import 'package:omni_previewer/features/main/presentation/bloc/recent_list_state.dart';
+import 'package:omni_preview/core/class/working_file.dart';
+import 'package:omni_preview/core/utililty/utility.dart';
+import 'package:omni_preview/features/main/data/datasource/local/recent_list_local_datasource.dart';
+import 'package:omni_preview/features/main/domain/repositories/recent_list_repository.dart';
+import 'package:omni_preview/features/main/presentation/bloc/recent_list_state.dart';
 
 class RecentListRepositoryImpl implements RecentListRepository {
   final RecentListLocalDataSource localDataSource;

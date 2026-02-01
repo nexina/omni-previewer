@@ -1,4 +1,4 @@
-name: omni_previewer
+name: omni_preview
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -57,6 +57,7 @@ dependencies:
       ref: 2cea396843cd3ab1b5ec4334be4233864637874e
   uri_to_file: ^1.0.0
   url_launcher: ^6.3.2
+  receive_intent: ^0.2.7
 
 dev_dependencies:
   flutter_test:

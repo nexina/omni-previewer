@@ -1,17 +1,6 @@
 cmake_minimum_required(VERSION 3.14)
 project(runner LANGUAGES CXX)
 
-add_compile_definitions(
-  _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING
-  WINRT_CUSTOM_MODULE_LOCK)
-
-# Fix for audioplayers_windows plugin build error
-if(TARGET audioplayers_windows_plugin)
-  target_compile_definitions(audioplayers_windows_plugin PRIVATE
-    _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING
-    WINRT_CUSTOM_MODULE_LOCK)
-endif()
-
 # Define the application target. To change its name, change BINARY_NAME in the
 # top-level CMakeLists.txt, not the value here, or `flutter run` will no longer
 # work.

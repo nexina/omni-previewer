@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:omni_previewer/core/class/working_file.dart';
+import 'package:omni_preview/core/class/working_file.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class RecentListLocalDataSource {

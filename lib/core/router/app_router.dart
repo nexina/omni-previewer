@@ -1,17 +1,17 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:omni_previewer/core/class/working_file.dart';
-import 'package:omni_previewer/core/di/injection_container.dart';
-import 'package:omni_previewer/features/main/presentation/bloc/recent_list_bloc.dart';
-import 'package:omni_previewer/features/main/presentation/bloc/recent_list_event.dart';
-import 'package:omni_previewer/features/main/presentation/page/mainpage.dart';
-import 'package:omni_previewer/features/main/presentation/page/settings.dart';
-import 'package:omni_previewer/features/viewer/presentation/page/archive.dart';
-import 'package:omni_previewer/features/viewer/presentation/page/audio.dart';
-import 'package:omni_previewer/features/viewer/presentation/page/document.dart';
-import 'package:omni_previewer/features/viewer/presentation/page/image.dart';
-import 'package:omni_previewer/features/viewer/presentation/page/text.dart';
-import 'package:omni_previewer/features/viewer/presentation/page/video.dart';
+import 'package:omni_preview/core/class/working_file.dart';
+import 'package:omni_preview/core/di/injection_container.dart';
+import 'package:omni_preview/features/main/presentation/bloc/recent_list_bloc.dart';
+import 'package:omni_preview/features/main/presentation/bloc/recent_list_event.dart';
+import 'package:omni_preview/features/main/presentation/page/mainpage.dart';
+import 'package:omni_preview/features/main/presentation/page/settings.dart';
+import 'package:omni_preview/features/viewer/presentation/page/archive.dart';
+import 'package:omni_preview/features/viewer/presentation/page/audio.dart';
+import 'package:omni_preview/features/viewer/presentation/page/document.dart';
+import 'package:omni_preview/features/viewer/presentation/page/image.dart';
+import 'package:omni_preview/features/viewer/presentation/page/text.dart';
+import 'package:omni_preview/features/viewer/presentation/page/video.dart';
 
 class AppRouter {
   static String textViewerRoute = '/textViewer';
@@ -25,6 +25,18 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     initialLocation: '/',
+    redirect: (context, state) {
+      final uri = state.uri;
+
+      // Ignore external intents (Open With)
+      if (uri.scheme == 'content' ||
+          uri.scheme == 'file' ||
+          uri.scheme == 'android.resource') {
+        return '/';
+      }
+
+      return null;
+    },
     routes: [
       ShellRoute(
         builder: (context, state, child) {

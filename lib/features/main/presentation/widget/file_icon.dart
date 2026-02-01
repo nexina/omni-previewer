@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:omni_previewer/core/utililty/utility.dart';
+import 'package:omni_preview/core/utililty/utility.dart';
 
 class FileIcon extends StatelessWidget {
   final String filePath;

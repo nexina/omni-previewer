@@ -1,6 +1,6 @@
 {
-    "name": "omni_viewer",
-    "short_name": "omni_viewer",
+    "name": "Omni Preview",
+    "short_name": "preview",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
