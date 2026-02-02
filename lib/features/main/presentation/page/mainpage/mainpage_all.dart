@@ -8,7 +8,6 @@ import 'package:intl/intl.dart';
 import 'package:uri_to_file/uri_to_file.dart';
 
 import 'package:omni_preview/features/main/presentation/bloc/recent_list_bloc.dart';
-import 'package:omni_preview/features/main/presentation/bloc/recent_list_event.dart';
 import 'package:omni_preview/features/main/presentation/bloc/recent_list_state.dart';
 import 'package:omni_preview/features/main/presentation/widget/file_icon.dart';
 import 'package:omni_preview/features/viewer/presentation/widget/omni_footer.dart';
@@ -92,10 +91,6 @@ class _RecentTitle extends StatelessWidget {
                         path: path,
                         workingPath: path,
                         size: size,
-                      );
-
-                      context.read<RecentListBloc>().add(
-                        AddFileToRecentListEvent(workingFile: workingFile),
                       );
 
                       openScreenForFile(context, workingFile);
@@ -227,21 +222,7 @@ class _RecentFilesListItemState extends State<_RecentFilesListItem> {
           size: size,
         );
 
-        if (!context.mounted) return;
-
         await openScreenForFile(context, workingFile);
-
-        if (context.mounted) {
-          final workingFile = WorkingFile(
-            path: widget.filePath,
-            workingPath: workingPath,
-            size: size,
-          );
-
-          context.read<RecentListBloc>().add(
-            AddFileToRecentListEvent(workingFile: workingFile),
-          );
-        }
       },
       child: MouseRegion(
         onEnter: (_) => setState(() => _isHovering = true),

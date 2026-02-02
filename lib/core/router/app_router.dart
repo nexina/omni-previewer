@@ -1,9 +1,5 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:omni_preview/core/class/working_file.dart';
-import 'package:omni_preview/core/di/injection_container.dart';
-import 'package:omni_preview/features/main/presentation/bloc/recent_list_bloc.dart';
-import 'package:omni_preview/features/main/presentation/bloc/recent_list_event.dart';
 import 'package:omni_preview/features/main/presentation/page/mainpage.dart';
 import 'package:omni_preview/features/main/presentation/page/settings.dart';
 import 'package:omni_preview/features/viewer/presentation/page/archive.dart';
@@ -38,25 +34,15 @@ class AppRouter {
       return null;
     },
     routes: [
-      ShellRoute(
-        builder: (context, state, child) {
-          return BlocProvider(
-            create: (context) =>
-                getIt<RecentListBloc>()..add(LoadRecentListEvent()),
-            child: child,
-          );
+      GoRoute(path: '/', builder: (context, state) => const MainPage()),
+      GoRoute(
+        name: setting,
+        path: setting,
+        pageBuilder: (context, state) {
+          return NoTransitionPage(child: const SettingsView());
         },
-        routes: [
-          GoRoute(path: '/', builder: (context, state) => const MainPage()),
-          GoRoute(
-            name: setting,
-            path: setting,
-            builder: (context, state) {
-              return const SettingsView();
-            },
-          ),
-        ],
       ),
+
       GoRoute(
         name: textViewerRoute,
         path: textViewerRoute,
@@ -81,8 +67,10 @@ class AppRouter {
       GoRoute(
         name: imageViewerRoute,
         path: imageViewerRoute,
-        builder: (context, state) {
-          return ImageViewer(workingFile: state.extra as WorkingFile);
+        pageBuilder: (context, state) {
+          return NoTransitionPage(
+            child: ImageViewer(workingFile: state.extra as WorkingFile),
+          );
         },
       ),
       GoRoute(

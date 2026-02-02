@@ -1,12 +1,15 @@
-import 'dart:typed_data';
-
 import 'package:flutter/services.dart';
+import 'package:omni_preview/core/config/stored.dart';
 
 class Values {
-  static const String backgroundImagePath = 'assets/images/default.jpg';
+  static Uint8List? _cachedBackgroundImage;
+
+  static Uint8List? get cachedBackgroundImage => _cachedBackgroundImage;
 
   static Future<Uint8List> get backgroundImage async {
-    final ByteData data = await rootBundle.load(backgroundImagePath);
-    return data.buffer.asUint8List();
+    if (_cachedBackgroundImage != null) return _cachedBackgroundImage!;
+    final ByteData data = await rootBundle.load(Stored.backgroundImagePath);
+    _cachedBackgroundImage = data.buffer.asUint8List();
+    return _cachedBackgroundImage!;
   }
 }

@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:omni_preview/core/class/working_file.dart';
 import 'package:omni_preview/core/config/file-type.dart';
 import 'dart:io';
 import 'dart:convert';
 
 import 'package:omni_preview/core/router/app_router.dart';
+import 'package:omni_preview/features/main/presentation/bloc/recent_list_bloc.dart';
+import 'package:omni_preview/features/main/presentation/bloc/recent_list_event.dart';
 import 'package:path/path.dart' as p;
 import 'package:uri_to_file/uri_to_file.dart';
 
@@ -56,12 +60,15 @@ Color setColorByExtension(String extension) {
 }
 
 Future<void> openScreenForFile(BuildContext context, WorkingFile file) async {
-  String extension = getExtension(file.path);
+  context.read<RecentListBloc>().add(
+    AddFileToRecentListEvent(workingFile: file),
+  );
+  String extension = getExtension(file.workingPath);
   String fileType = getFileType(extension);
 
   if (!context.mounted) return;
   if (fileType == "Image") {
-    AppRouter.router.pushNamed(
+    context.pushNamed(
       AppRouter.imageViewerRoute,
       extra: WorkingFile(
         path: file.path,
@@ -70,7 +77,7 @@ Future<void> openScreenForFile(BuildContext context, WorkingFile file) async {
       ),
     );
   } else if (fileType == "Archive") {
-    AppRouter.router.pushNamed(
+    context.pushNamed(
       AppRouter.archiveViewerRoute,
       extra: WorkingFile(
         path: file.path,
@@ -79,7 +86,7 @@ Future<void> openScreenForFile(BuildContext context, WorkingFile file) async {
       ),
     );
   } else if (fileType == "Video") {
-    AppRouter.router.pushNamed(
+    context.pushNamed(
       AppRouter.videoViewerRoute,
       extra: WorkingFile(
         path: file.path,
@@ -88,7 +95,7 @@ Future<void> openScreenForFile(BuildContext context, WorkingFile file) async {
       ),
     );
   } else if (fileType == "Document") {
-    AppRouter.router.pushNamed(
+    context.pushNamed(
       AppRouter.documentViewerRoute,
       extra: WorkingFile(
         path: file.path,
@@ -97,7 +104,7 @@ Future<void> openScreenForFile(BuildContext context, WorkingFile file) async {
       ),
     );
   } else if (fileType == "Audio") {
-    AppRouter.router.pushNamed(
+    context.pushNamed(
       AppRouter.audioViewerRoute,
       extra: WorkingFile(
         path: file.path,
@@ -106,7 +113,7 @@ Future<void> openScreenForFile(BuildContext context, WorkingFile file) async {
       ),
     );
   } else if (fileType == "Text") {
-    AppRouter.router.pushNamed(
+    context.pushNamed(
       AppRouter.textViewerRoute,
       extra: WorkingFile(
         path: file.path,
@@ -117,7 +124,7 @@ Future<void> openScreenForFile(BuildContext context, WorkingFile file) async {
   } else {
     if (await isTextFile(file.path)) {
       if (!context.mounted) return;
-      AppRouter.router.pushNamed(
+      context.pushNamed(
         AppRouter.textViewerRoute,
         extra: WorkingFile(
           path: file.path,

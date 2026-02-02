@@ -1,43 +1,40 @@
-import 'dart:typed_data';
-
+import 'package:flutter/material.dart';
 import 'dart:ui';
 
-import 'package:flutter/material.dart';
-import 'package:omni_preview/core/config/values.dart';
-
-class BackgroundBuilder extends StatefulWidget {
+class BackgroundBuilder extends StatelessWidget {
   final Widget child;
   const BackgroundBuilder({super.key, required this.child});
 
   @override
-  State<BackgroundBuilder> createState() => _BackgroundBuilderState();
-}
-
-class _BackgroundBuilderState extends State<BackgroundBuilder> {
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder<Uint8List>(
-        future: Values.backgroundImage,
-        builder: (context, snapshot) {
-          return Container(
-            decoration: BoxDecoration(
-              image: snapshot.hasData
-                  ? DecorationImage(
-                      image: MemoryImage(snapshot.data!),
-                      fit: BoxFit.cover,
-                    )
-                  : null,
+      backgroundColor: Colors.black,
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          // 🔒 Always painted first — no white frame
+          const ColoredBox(color: Colors.black),
+
+          // Background image
+          const Image(
+            image: AssetImage("assets/images/default.jpg"),
+            fit: BoxFit.cover,
+          ),
+
+          // Blur layer
+          BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+            child: Container(color: Colors.transparent),
+          ),
+
+          // Dark overlay + content
+          SafeArea(
+            child: Container(
+              color: Colors.black.withOpacity(0.5),
+              child: child,
             ),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-              child: Container(
-                color: const Color(0x00242424).withValues(alpha: 0.5),
-                child: SafeArea(child: widget.child),
-              ),
-            ),
-          );
-        },
+          ),
+        ],
       ),
     );
   }
