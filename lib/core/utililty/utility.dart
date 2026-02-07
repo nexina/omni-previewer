@@ -68,7 +68,7 @@ Future<void> openScreenForFile(BuildContext context, WorkingFile file) async {
 
   if (!context.mounted) return;
   if (fileType == "Image") {
-    context.pushNamed(
+    AppRouter.router.pushNamed(
       AppRouter.imageViewerRoute,
       extra: WorkingFile(
         path: file.path,
@@ -77,7 +77,7 @@ Future<void> openScreenForFile(BuildContext context, WorkingFile file) async {
       ),
     );
   } else if (fileType == "Archive") {
-    context.pushNamed(
+    AppRouter.router.pushNamed(
       AppRouter.archiveViewerRoute,
       extra: WorkingFile(
         path: file.path,
@@ -86,7 +86,7 @@ Future<void> openScreenForFile(BuildContext context, WorkingFile file) async {
       ),
     );
   } else if (fileType == "Video") {
-    context.pushNamed(
+    AppRouter.router.pushNamed(
       AppRouter.videoViewerRoute,
       extra: WorkingFile(
         path: file.path,
@@ -95,7 +95,7 @@ Future<void> openScreenForFile(BuildContext context, WorkingFile file) async {
       ),
     );
   } else if (fileType == "Document") {
-    context.pushNamed(
+    AppRouter.router.pushNamed(
       AppRouter.documentViewerRoute,
       extra: WorkingFile(
         path: file.path,
@@ -104,7 +104,7 @@ Future<void> openScreenForFile(BuildContext context, WorkingFile file) async {
       ),
     );
   } else if (fileType == "Audio") {
-    context.pushNamed(
+    AppRouter.router.pushNamed(
       AppRouter.audioViewerRoute,
       extra: WorkingFile(
         path: file.path,
@@ -113,7 +113,7 @@ Future<void> openScreenForFile(BuildContext context, WorkingFile file) async {
       ),
     );
   } else if (fileType == "Text") {
-    context.pushNamed(
+    AppRouter.router.pushNamed(
       AppRouter.textViewerRoute,
       extra: WorkingFile(
         path: file.path,
@@ -124,7 +124,7 @@ Future<void> openScreenForFile(BuildContext context, WorkingFile file) async {
   } else {
     if (await isTextFile(file.path)) {
       if (!context.mounted) return;
-      context.pushNamed(
+      AppRouter.router.pushNamed(
         AppRouter.textViewerRoute,
         extra: WorkingFile(
           path: file.path,

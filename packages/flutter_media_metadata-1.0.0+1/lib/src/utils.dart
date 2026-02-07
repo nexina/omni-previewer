@@ -11,14 +11,16 @@ int? parseInteger(dynamic value) {
   }
   if (value is int) {
     return value;
-  } else if (value is String) {
-    try {
-      try {
-        return int.parse(value);
-      } catch (_) {
-        return int.parse(value.split('/').first);
-      }
-    } catch (_) {}
+  }
+  if (value is String) {
+    // First, try to parse the whole string.
+    var result = int.tryParse(value);
+    if (result != null) {
+      return result;
+    }
+    // If that fails, it might be in "1/10" format for track numbers.
+    final parts = value.split('/');
+    return int.tryParse(parts.first);
   }
   return null;
 }

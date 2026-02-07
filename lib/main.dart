@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:media_kit/media_kit.dart';
+import 'package:omni_preview/core/class/working_file.dart';
 import 'package:omni_preview/core/di/injection_container.dart' as di;
 import 'package:omni_preview/core/router/app_router.dart';
+import 'package:omni_preview/core/utililty/utility.dart';
 import 'package:omni_preview/features/main/presentation/bloc/recent_list_bloc.dart';
 import 'package:omni_preview/features/main/presentation/bloc/recent_list_event.dart';
 import 'package:pdfrx/pdfrx.dart';
@@ -14,9 +18,12 @@ void main(List<String> args) async {
   await di.init();
 
   String? initialFilePath;
-  final pIndex = args.indexOf('-p');
-  if (pIndex != -1 && pIndex + 1 < args.length) {
-    initialFilePath = args[pIndex + 1];
+  // Windows file association (primary case)
+  if (args.isNotEmpty) {
+    final candidate = args.first;
+    if (File(candidate).existsSync()) {
+      initialFilePath = candidate;
+    }
   }
 
   runApp(MyApp(initialFilePath: initialFilePath));
@@ -70,8 +77,18 @@ class _InitialPathHandlerState extends State<InitialPathHandler> {
   @override
   void initState() {
     super.initState();
-    if (widget.initialFilePath != null && !_handled) {
-      _handled = true;
+    if (widget.initialFilePath != null) {
+      if (widget.initialFilePath != null && !_handled) {
+        _handled = true;
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          final WorkingFile file = WorkingFile(
+            path: widget.initialFilePath!,
+            workingPath: widget.initialFilePath!,
+          );
+          print(file.path);
+          openScreenForFile(context, file);
+        });
+      }
     }
   }
 

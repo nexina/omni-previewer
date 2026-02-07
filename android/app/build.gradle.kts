@@ -1,3 +1,31 @@
+import java.util.Properties
+import java.io.File
+
+val envProperties = Properties()
+val envFile = File(rootProject.projectDir.parentFile, ".env")
+if (!envFile.exists()) {
+    throw GradleException(".env file not found in project root!")
+}
+envFile.reader().useLines { lines ->
+    lines.forEach { line ->
+        val trimmed = line.trim()
+        if (trimmed.isNotEmpty() && !trimmed.startsWith("#") && "=" in trimmed) {
+            val (key, value) = trimmed.split("=", limit = 2)
+            envProperties.setProperty(key.trim(), value.trim())
+        }
+    }
+}
+
+// Extract typed values
+val keyAliasValue = envProperties.getProperty("KEY_ALIAS")
+    ?: throw GradleException("KEY_ALIAS not found in .env")
+val keyPasswordValue = envProperties.getProperty("KEY_PASSWORD")
+    ?: throw GradleException("KEY_PASSWORD not found in .env")
+val storePasswordValue = envProperties.getProperty("STORE_PASSWORD")
+    ?: throw GradleException("STORE_PASSWORD not found in .env")
+val storeFileValue = envProperties.getProperty("STORE_FILE")
+    ?: throw GradleException("STORE_FILE not found in .env")
+    
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -16,29 +44,35 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
+        jvmTarget =  JavaVersion.VERSION_17.toString()
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "nexina.omni.preview"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
 
-    buildTypes {
-        release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
+    signingConfigs {
+        create("release") {
+            keyAlias = keyAliasValue
+            keyPassword = keyPasswordValue
+            storeFile = file(storeFileValue)
+            storePassword = storePasswordValue
         }
     }
-}
 
-flutter {
-    source = "../.."
+    buildTypes {
+        getByName("release") {
+            signingConfig = signingConfigs.getByName("release")
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+    }
 }

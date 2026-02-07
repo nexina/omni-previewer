@@ -14,3 +14,10 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+setup
+windows: uso Inno software, and run /setup/windows/install.iss
+
+linux
+sudo apt install libmpv-dev mpv libgtk-3-dev lld
+ sudo -E env "PATH=$PATH" flutter build linux --release -v
